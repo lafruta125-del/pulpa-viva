@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pulpa Viva · Pulpas de frutas</title>
+<meta property="og:title" content="Pulpa Viva">
+<meta property="og:description" content="Pulpas de fruta listas para tu jugo. Haz tu pedido por WhatsApp.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
@@ -139,6 +142,17 @@
   .view.active { animation: show .35s ease; }
   @keyframes show { from { opacity: 0; } to { opacity: 1; } }
 
+  /* Pedido recibido (con imágenes) */
+  img.fruit { object-fit: cover; border-radius: 18px; }
+  .ordersum { display: grid; gap: 10px; max-width: 640px; }
+  .ordersum .row { display: grid; grid-template-columns: 72px 1fr auto; gap: 14px; align-items: center; background: var(--surface); border-radius: 18px; padding: 10px 16px 10px 10px; }
+  .thumb { width: 72px; height: 72px; }
+  .thumb .fruit, .thumb img { width: 100%; height: 100%; margin: 0; }
+  .ordersum .row b { font-family: var(--display); font-size: 1.1rem; display: block; }
+  .ordersum .row small { color: var(--muted); }
+  .ordersum .price { font-weight: 700; }
+  .pedtotal { max-width: 640px; }
+
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
 </style>
 </head>
@@ -264,6 +278,18 @@
       </div>
     </div>
   </section>
+
+  <!-- PEDIDO RECIBIDO (se abre desde el enlace de WhatsApp) -->
+  <section class="block view" id="pedido">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Pedido recibido</h2>
+        <p id="pedInfo"></p>
+      </div>
+      <div class="ordersum" id="pedList"></div>
+      <div class="total pedtotal"><span>Total</span><span id="pedTotal">$0.00</span></div>
+    </div>
+  </section>
 </main>
 
 <footer>© <span id="yr"></span> Pulpa Viva. Todos los derechos reservados.</footer>
@@ -271,18 +297,18 @@
 <script>
   // ====== CONFIGURA AQUÍ ======
   // Cambia este número por el tuyo: código de país + número, sin + ni espacios.
-  var WHATSAPP = "+593964151785";
+  var WHATSAPP = "593964151785";
   // ============================
 
   var PRODUCTS = [
-    { id: "mora",    name: "Mora",           price: 3.50, color: "#5B2A86", desc: "Ácida y jugosa, ideal para jugos y mermeladas." },
-    { id: "maracuya",name: "Maracuyá",       price: 4.00, color: "#F4B400", desc: "Aroma intenso, perfecta para jugos y postres." },
-    { id: "guanabana",name: "Guanábana",     price: 4.50, color: "#9CC77A", desc: "Cremosa y suave, ideal para batidos." },
-    { id: "naranjilla",name: "Naranjilla",   price: 3.50, color: "#F28A1B", desc: "El sabor de siempre para tu jugo del día." },
-    { id: "fresa",   name: "Fresa",          price: 4.00, color: "#E0263F", desc: "Dulce y fresca, para batidos y helados." },
-    { id: "mango",   name: "Mango",          price: 3.80, color: "#FFB020", desc: "Dulce y espesa, lista para licuar." },
-    { id: "pina",    name: "Piña",           price: 3.20, color: "#E8C12B", desc: "Refrescante y ligeramente ácida." },
-    { id: "tomate",  name: "Tomate de árbol",price: 3.50, color: "#C2411C", desc: "Típico sabor andino, perfecto con un poco de panela." }
+    { id: "mora",    name: "Mora",           price: 3.50, foto: "", color: "#5B2A86", desc: "Ácida y jugosa, ideal para jugos y mermeladas." },
+    { id: "maracuya",name: "Maracuyá",       price: 4.00, foto: "", color: "#F4B400", desc: "Aroma intenso, perfecta para jugos y postres." },
+    { id: "guanabana",name: "Guanábana",     price: 4.50, foto: "", color: "#9CC77A", desc: "Cremosa y suave, ideal para batidos." },
+    { id: "naranjilla",name: "Naranjilla",   price: 3.50, foto: "", color: "#F28A1B", desc: "El sabor de siempre para tu jugo del día." },
+    { id: "fresa",   name: "Fresa",          price: 4.00, foto: "", color: "#E0263F", desc: "Dulce y fresca, para batidos y helados." },
+    { id: "mango",   name: "Mango",          price: 3.80, foto: "", color: "#FFB020", desc: "Dulce y espesa, lista para licuar." },
+    { id: "pina",    name: "Piña",           price: 3.20, foto: "", color: "#E8C12B", desc: "Refrescante y ligeramente ácida." },
+    { id: "tomate",  name: "Tomate de árbol",price: 3.50, foto: "", color: "#C2411C", desc: "Típico sabor andino, perfecto con un poco de panela." }
   ];
 
   var qty = {};
@@ -296,10 +322,15 @@
       '<path d="M42 16 C40 8 46 4 54 6 C52 14 48 17 42 16Z" fill="#1F7A4D"/></svg>';
   }
 
+  /* Si pones la ruta de una foto en "foto" (ej: "fotos/mora.jpg"), se usa la foto; si no, el dibujo */
+  function pic(p){
+    return p.foto ? '<img class="fruit" src="' + p.foto + '" alt="' + p.name + '" loading="lazy">' : fruitSvg(p.color);
+  }
+
   function buildGrid(){
     var g = document.getElementById("grid");
     g.innerHTML = PRODUCTS.map(function(p){
-      return '<div class="card" id="card-' + p.id + '">' + fruitSvg(p.color) +
+      return '<div class="card" id="card-' + p.id + '">' + pic(p) +
         '<h3>' + p.name + '</h3><p class="desc">' + p.desc + '</p>' +
         '<div class="price">' + money(p.price) + ' <small>funda 500 g</small></div>' +
         '<div class="add" id="add-' + p.id + '"></div></div>';
@@ -338,6 +369,12 @@
     document.getElementById("pill").textContent = "Pedido: " + count;
     var send = document.getElementById("send");
     if (count) {
+      if (/^https?:$/.test(location.protocol)) {
+        var items = PRODUCTS.filter(function(p){ return qty[p.id] > 0; }).map(function(p){ return p.id + "-" + qty[p.id]; }).join(",");
+        msg.push("");
+        msg.push("Ver pedido con imágenes:");
+        msg.push(location.origin + location.pathname + "?pedido=" + items);
+      }
       send.href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg.join("\n"));
       send.setAttribute("aria-disabled", "false");
     } else {
@@ -367,11 +404,28 @@
   buildGrid();
   renderOrder();
 
+  // ====== Pedido recibido (con imágenes) ======
+  function renderPedido(){
+    var q = new URLSearchParams(location.search), html = "", total = 0;
+    (q.get("pedido") || "").split(",").forEach(function(it){
+      var parts = it.split("-"), n = parseInt(parts[1], 10);
+      var p = PRODUCTS.filter(function(x){ return x.id === parts[0]; })[0];
+      if (!p || !(n > 0)) return;
+      var sub = p.price * n; total += sub;
+      html += '<div class="row"><div class="thumb">' + pic(p) + '</div><div><b>' + p.name + '</b><small>' + n + ' × ' + money(p.price) + ' / funda 500 g</small></div><span class="price">' + money(sub) + '</span></div>';
+    });
+    document.getElementById("pedInfo").textContent = "Estas son las pulpas que pidió el cliente.";
+    document.getElementById("pedList").innerHTML = html || '<p>No se encontró el pedido.</p>';
+    document.getElementById("pedTotal").textContent = money(total);
+  }
+
   // ====== Navegación: una sección a la vez ======
-  var VIEWS = ["inicio", "productos", "nosotros", "contacto"];
+  var VIEWS = ["inicio", "productos", "nosotros", "contacto", "pedido"];
   function showView(){
-    var h = (location.hash || "#inicio").replace("#", "");
-    if (VIEWS.indexOf(h) === -1) h = "inicio";
+    var h = (location.hash || "").replace("#", "");
+    var hasPedido = new URLSearchParams(location.search).has("pedido");
+    if (VIEWS.indexOf(h) === -1 || h === "pedido") h = hasPedido ? "pedido" : "inicio";
+    if (h === "pedido") renderPedido();
     VIEWS.forEach(function(v){
       document.getElementById(v).classList.toggle("active", v === h);
     });
