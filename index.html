@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>FRUTAFRÉS · Pulpas de frutas</title>
-<meta property="og:title" content="FRUTAFRÉS">
+<title>Pulpa Viva · Pulpas de frutas</title>
+<meta property="og:title" content="Pulpa Viva">
 <meta property="og:description" content="Pulpas de fruta listas para tu jugo. Haz tu pedido por WhatsApp.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -90,7 +90,7 @@
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 16px; }
   .card { background: var(--surface); border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 6px; border: 2px solid transparent; transition: border-color .15s ease; }
   .card.on { border-color: var(--guava); }
-  .card .fruit { width: 84px; height: 84px; margin-bottom: 6px; }
+  .card .fruit { width: 90px; height: 108px; margin-bottom: 8px; }
   .card h3 { font-size: 1.25rem; font-weight: 800; }
   .card .desc { font-size: 0.9rem; color: var(--muted); line-height: 1.4; margin: 0; }
   .card .price { font-weight: 700; margin-top: 4px; }
@@ -144,6 +144,8 @@
 
   /* Pedido recibido (con imágenes) */
   img.fruit { object-fit: cover; border-radius: 18px; }
+  .card img.fruit { width: 100%; height: 150px; margin-bottom: 8px; }
+  .hero-photo { aspect-ratio: 1 / 1; object-fit: cover; border-radius: 40px; }
   .ordersum { display: grid; gap: 10px; max-width: 640px; }
   .ordersum .row { display: grid; grid-template-columns: 72px 1fr auto; gap: 14px; align-items: center; background: var(--surface); border-radius: 18px; padding: 10px 16px 10px 10px; }
   .thumb { width: 72px; height: 72px; }
@@ -160,7 +162,7 @@
 
 <header>
   <div class="bar">
-    <a class="brand" href="#inicio">FRUTAFRÉS</a>
+    <a class="brand" href="#inicio">Pulpa Viva</a>
     <nav aria-label="Principal">
       <a href="#inicio">Inicio</a>
       <a href="#productos">Productos</a>
@@ -186,43 +188,17 @@
         <p>Fruta pura, sin agua ni conservantes. Congelada en fundas de 500 g para que prepares jugos, batidos y postres en minutos.</p>
       </div>
       <!-- Imagen -->
-      <svg class="hero-art" viewBox="0 0 520 520" role="img" aria-label="Funda de pulpa rodeada de fresas, maracuyá y moras">
+      <img class="hero-art hero-photo" src="inicio.jpg" alt="Pulpas de fruta" style="display:none" onload="this.style.display='block'; document.getElementById('heroSvg').style.display='none'">
+      <svg id="heroSvg" class="hero-art" viewBox="0 0 520 520" role="img" aria-label="Funda de pulpa de fruta de 500 g">
         <circle cx="260" cy="270" r="230" fill="var(--soft)"/>
-        <!-- hojas -->
-        <path d="M70 380 C40 300 80 240 150 230 C160 300 130 360 70 380Z" fill="var(--leaf)"/>
-        <path d="M455 150 C490 220 450 290 380 300 C370 230 400 170 455 150Z" fill="var(--leaf)"/>
-        <!-- funda -->
-        <g transform="rotate(-6 260 270)">
-          <path d="M175 120 H345 L360 150 V400 Q360 425 335 425 H185 Q160 425 160 400 V150 Z" fill="var(--surface)" stroke="var(--ink)" stroke-width="5" stroke-linejoin="round"/>
-          <path d="M175 120 H345 L360 150 H160 Z" fill="var(--guava)" stroke="var(--ink)" stroke-width="5" stroke-linejoin="round"/>
-          <g stroke="var(--ink)" stroke-width="3" opacity=".35"><path d="M185 133 V142"/><path d="M210 133 V142"/><path d="M235 133 V142"/><path d="M260 133 V142"/><path d="M285 133 V142"/><path d="M310 133 V142"/><path d="M335 133 V142"/></g>
-          <circle cx="260" cy="265" r="62" fill="var(--guava)"/>
-          <circle cx="260" cy="265" r="46" fill="none" stroke="#fff" stroke-width="4" opacity=".55"/>
-          <path d="M262 205 C250 190 262 178 276 182 C274 194 270 200 262 205Z" fill="var(--leaf)"/>
-          <rect x="205" y="345" width="110" height="12" rx="6" fill="var(--ink)" opacity=".85"/>
-          <rect x="225" y="368" width="70" height="9" rx="4.5" fill="var(--ink)" opacity=".35"/>
-        </g>
-        <!-- fresa -->
-        <g transform="translate(95 90)">
-          <path d="M50 18 C95 10 108 50 84 92 C70 116 58 122 50 124 C42 122 30 116 16 92 C-8 50 5 10 50 18Z" fill="#E0263F" stroke="var(--ink)" stroke-width="5" stroke-linejoin="round"/>
-          <path d="M28 18 L50 0 L72 18 L60 26 L50 16 L40 26Z" fill="var(--leaf)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/>
-          <g fill="#FFE6A6"><ellipse cx="34" cy="48" rx="3" ry="5"/><ellipse cx="62" cy="46" rx="3" ry="5"/><ellipse cx="48" cy="68" rx="3" ry="5"/><ellipse cx="30" cy="80" rx="3" ry="5"/><ellipse cx="68" cy="78" rx="3" ry="5"/><ellipse cx="50" cy="96" rx="3" ry="5"/></g>
-        </g>
-        <!-- maracuyá cortada -->
-        <g transform="translate(365 345)">
-          <circle cx="60" cy="60" r="58" fill="#7A3E9D" stroke="var(--ink)" stroke-width="5"/>
-          <circle cx="60" cy="60" r="46" fill="#F4E6B8"/>
-          <circle cx="60" cy="60" r="34" fill="var(--sun)"/>
-          <g fill="#7A4A00"><circle cx="48" cy="52" r="4"/><circle cx="68" cy="48" r="4"/><circle cx="74" cy="66" r="4"/><circle cx="56" cy="72" r="4"/><circle cx="42" cy="68" r="4"/><circle cx="62" cy="60" r="4"/></g>
-        </g>
-        <!-- moras -->
-        <g transform="translate(80 385)" stroke="var(--ink)" stroke-width="4">
-          <circle cx="30" cy="30" r="20" fill="#5B2A86"/><circle cx="62" cy="30" r="20" fill="#6A32A0"/><circle cx="46" cy="58" r="20" fill="#5B2A86"/><circle cx="16" cy="58" r="20" fill="#6A32A0"/><circle cx="76" cy="58" r="20" fill="#5B2A86"/>
-        </g>
-        <!-- mango/piña gota -->
-        <g transform="translate(395 95)">
-          <path d="M45 8 C95 20 100 80 60 98 C20 112 -4 70 14 38 C22 22 32 12 45 8Z" fill="#FF9B2F" stroke="var(--ink)" stroke-width="5" stroke-linejoin="round"/>
-          <path d="M48 8 C48 -6 62 -10 70 -6 C66 4 58 8 48 8Z" fill="var(--leaf)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/>
+        <ellipse cx="260" cy="470" rx="130" ry="14" fill="rgba(0,0,0,.14)"/>
+        <g transform="rotate(-5 260 270) translate(98 66) scale(3.6)">
+          <path d="M14 14H76L80 24V96Q80 102 74 102H16Q10 102 10 96V24Z" fill="var(--guava)" stroke="var(--ink)" stroke-width="1.4" stroke-linejoin="round"/>
+          <path d="M14 14H76L80 24H10Z" fill="rgba(0,0,0,.22)" stroke="var(--ink)" stroke-width="1.4" stroke-linejoin="round"/>
+          <path d="M20 18v3M28 18v3M36 18v3M44 18v3M52 18v3M60 18v3M68 18v3" stroke="rgba(255,255,255,.55)" stroke-width="1" stroke-linecap="round"/>
+          <rect x="16" y="32" width="7" height="62" rx="3.5" fill="#fff" opacity=".25"/>
+          <rect x="26" y="50" width="48" height="30" rx="7" fill="#fff" opacity=".95"/>
+          <text x="50" y="71" text-anchor="middle" font-family="Figtree, system-ui, sans-serif" font-size="17" font-weight="800" fill="#2A1220">500 g</text>
         </g>
       </svg>
     </div>
@@ -298,6 +274,8 @@
   // ====== CONFIGURA AQUÍ ======
   // Cambia este número por el tuyo: código de país + número, sin + ni espacios.
   var WHATSAPP = "593964151785";
+  // Formato de tus fotos (jpg, png o webp). Las fotos van junto al index.html y se llaman como el producto.
+  var FOTO_EXT = "jpg";
   // ============================
 
   var PRODUCTS = [
@@ -314,17 +292,27 @@
   var qty = {};
   function money(n){ return "$" + n.toFixed(2); }
 
+  // Funda de pulpa: del color de la fruta, solo con la etiqueta "500 g"
   function fruitSvg(c){
-    return '<svg class="fruit" viewBox="0 0 84 84" aria-hidden="true">' +
-      '<circle cx="42" cy="46" r="30" fill="' + c + '"/>' +
-      '<circle cx="42" cy="46" r="30" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="3"/>' +
-      '<ellipse cx="32" cy="36" rx="8" ry="5" fill="#fff" opacity=".35" transform="rotate(-30 32 36)"/>' +
-      '<path d="M42 16 C40 8 46 4 54 6 C52 14 48 17 42 16Z" fill="#1F7A4D"/></svg>';
+    return '<svg class="fruit" viewBox="0 0 90 108" role="img" aria-label="Funda de 500 g">' +
+      '<path d="M14 14H76L80 24V96Q80 102 74 102H16Q10 102 10 96V24Z" fill="' + c + '" stroke="rgba(0,0,0,.35)" stroke-width="2.5" stroke-linejoin="round"/>' +
+      '<path d="M14 14H76L80 24H10Z" fill="rgba(0,0,0,.22)" stroke="rgba(0,0,0,.35)" stroke-width="2.5" stroke-linejoin="round"/>' +
+      '<path d="M20 18v3M28 18v3M36 18v3M44 18v3M52 18v3M60 18v3M68 18v3" stroke="rgba(255,255,255,.55)" stroke-width="1.6" stroke-linecap="round"/>' +
+      '<rect x="16" y="32" width="7" height="62" rx="3.5" fill="#fff" opacity=".25"/>' +
+      '<rect x="26" y="50" width="48" height="30" rx="7" fill="#fff" opacity=".95"/>' +
+      '<text x="50" y="71" text-anchor="middle" font-family="Figtree, system-ui, sans-serif" font-size="17" font-weight="800" fill="#2A1220">500 g</text></svg>';
   }
 
-  /* Si pones la ruta de una foto en "foto" (ej: "fotos/mora.jpg"), se usa la foto; si no, el dibujo */
+  /* Fotos: sube junto al index.html archivos con estos nombres: mora, maracuya, guanabana, naranjilla,
+     fresa, mango, pina, tomate (ej: mora.jpg). Si una foto no existe, se muestra el dibujo de la funda. */
+  function fotoFallback(img){
+    var d = document.createElement("div");
+    d.innerHTML = fruitSvg(img.getAttribute("data-c"));
+    img.replaceWith(d.firstChild);
+  }
   function pic(p){
-    return p.foto ? '<img class="fruit" src="' + p.foto + '" alt="' + p.name + '" loading="lazy">' : fruitSvg(p.color);
+    var src = p.foto || (p.id + "." + FOTO_EXT);
+    return '<img class="fruit" src="' + src + '" alt="Pulpa de ' + p.name + '" loading="lazy" data-c="' + p.color + '" onerror="fotoFallback(this)">';
   }
 
   function buildGrid(){
