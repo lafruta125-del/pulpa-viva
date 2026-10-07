@@ -268,7 +268,7 @@
   </section>
 </main>
 
-<footer>© <span id="yr"></span> frutafrés. Todos los derechos reservados.</footer>
+<footer>© <span id="yr"></span> frutafrés. Todos los derechos seran reservados.</footer>
 
 <script>
   // ====== CONFIGURA AQUÍ ======
@@ -428,7 +428,7 @@
     });
     document.querySelectorAll("nav a, .mobile-nav a").forEach(function(a){
       a.classList.toggle("current", a.getAttribute("href") === "#" + h);
-    });
+    }); 
     window.scrollTo(0, 0);
   }
   window.addEventListener("hashchange", showView);
