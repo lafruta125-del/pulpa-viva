@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Pulpa Viva · Pulpas de frutas</title>
+<title>FRUTAFRÉS · Pulpas de frutas</title>
 <meta property="og:title" content="FRUTAFRÉS">
 <meta property="og:description" content="Pulpas de fruta listas para tu jugo. Haz tu pedido por WhatsApp.">
 <meta property="og:type" content="website">
@@ -162,7 +162,7 @@
 
 <header>
   <div class="bar">
-    <a class="brand" href="#inicio">FRUTAFRÉ</a>
+    <a class="brand" href="#inicio">FRUTRAFRÉS</a>
     <nav aria-label="Principal">
       <a href="#inicio">Inicio</a>
       <a href="#productos">Productos</a>
@@ -188,7 +188,7 @@
         <p>Fruta pura, sin agua ni conservantes. Congelada en fundas de 500 g para que prepares jugos, batidos y postres en minutos.</p>
       </div>
       <!-- Imagen -->
-      <img class="hero-art hero-photo" src="inicio.jpg" alt="Pulpas de fruta" style="display:none" onload="this.style.display='block'; document.getElementById('heroSvg').style.display='none'">
+      <img class="hero-art hero-photo" src="inicio.jpg" data-id="inicio" data-n="0" onerror="nextFoto(this)" alt="Pulpas de fruta" style="display:none" onload="this.style.display='block'; document.getElementById('heroSvg').style.display='none'">
       <svg id="heroSvg" class="hero-art" viewBox="0 0 520 520" role="img" aria-label="Funda de pulpa de fruta de 500 g">
         <circle cx="260" cy="270" r="230" fill="var(--soft)"/>
         <ellipse cx="260" cy="470" rx="130" ry="14" fill="rgba(0,0,0,.14)"/>
@@ -274,8 +274,6 @@
   // ====== CONFIGURA AQUÍ ======
   // Cambia este número por el tuyo: código de país + número, sin + ni espacios.
   var WHATSAPP = "593964151785";
-  // Formato de tus fotos (jpg, png o webp). Las fotos van junto al index.html y se llaman como el producto.
-  var FOTO_EXT = "jpg";
   // ============================
 
   var PRODUCTS = [
@@ -305,14 +303,25 @@
 
   /* Fotos: sube junto al index.html archivos con estos nombres: mora, maracuya, guanabana, naranjilla,
      fresa, mango, pina, tomate (ej: mora.jpg). Si una foto no existe, se muestra el dibujo de la funda. */
+  // La página prueba sola estos formatos: jpg, png, jpeg y webp.
+  var FOTO_EXTS = ["jpg", "png", "jpeg", "webp"];
+  function nextFoto(img){
+    var n = parseInt(img.getAttribute("data-n") || "0", 10) + 1;
+    if (n >= FOTO_EXTS.length) return false;
+    img.setAttribute("data-n", n);
+    img.src = img.getAttribute("data-id") + "." + FOTO_EXTS[n];
+    return true;
+  }
   function fotoFallback(img){
+    if (img.getAttribute("data-id") && nextFoto(img)) return;
     var d = document.createElement("div");
     d.innerHTML = fruitSvg(img.getAttribute("data-c"));
     img.replaceWith(d.firstChild);
   }
   function pic(p){
-    var src = p.foto || (p.id + "." + FOTO_EXT);
-    return '<img class="fruit" src="' + src + '" alt="Pulpa de ' + p.name + '" loading="lazy" data-c="' + p.color + '" onerror="fotoFallback(this)">';
+    var custom = !!p.foto;
+    var src = p.foto || (p.id + "." + FOTO_EXTS[0]);
+    return '<img class="fruit" src="' + src + '" alt="Pulpa de ' + p.name + '" loading="lazy" data-c="' + p.color + '"' + (custom ? '' : ' data-id="' + p.id + '" data-n="0"') + ' onerror="fotoFallback(this)">';
   }
 
   function buildGrid(){
